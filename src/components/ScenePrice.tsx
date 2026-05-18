@@ -8,8 +8,9 @@ export default function ScenePrice() {
   useEffect(() => {
     const t1 = setTimeout(() => setPhase(1), 1500);
     const t2 = setTimeout(() => setPhase(2), 2500);
-    const t3 = setTimeout(() => setPhase(3), 4500);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    const t2b = setTimeout(() => setPhase(2.5), 3500); // explosion
+    const t3 = setTimeout(() => setPhase(3), 4200);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t2b); clearTimeout(t3); };
   }, []);
 
   return (
@@ -26,19 +27,21 @@ export default function ScenePrice() {
         
        {/* Price display side */}
        <div className="text-center flex-1 order-2 md:order-1 flex flex-col items-center justify-center w-full">
-          <motion.h2 
-            className="text-3xl md:text-5xl font-black uppercase tracking-tight mb-8 md:mb-12 drop-shadow-lg"
+           <motion.h2 
+            className="text-4xl md:text-6xl xl:text-8xl font-black uppercase tracking-tight mb-8 md:mb-12"
+            style={{ textShadow: '0 2px 20px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,1)' }}
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
           >
             El Truco Comercial
           </motion.h2>
 
-          <div className="relative flex flex-col items-center justify-center min-h-[160px] md:min-h-[200px] w-full bg-black/40 rounded-3xl border border-white/10 p-6 shadow-inner max-w-md mx-auto">
+          <div className="relative flex flex-col items-center justify-center min-h-[160px] md:min-h-[200px] w-full bg-black/80 rounded-3xl border border-white/30 p-6 shadow-inner max-w-md mx-auto">
              {phase < 3 ? (
                 <motion.span 
                   key="price-40"
-                  className="text-[80px] md:text-[120px] font-black font-mono text-white opacity-80 leading-none"
+                  className="text-[100px] md:text-[140px] xl:text-[200px] font-black font-mono text-white leading-none"
+                  style={{ textShadow: '0 2px 20px rgba(0,0,0,0.9)' }}
                   initial={{ filter: "blur(10px)", opacity: 0, scale: 0.9 }}
                   animate={{ filter: "blur(0px)", opacity: 1, scale: 1 }}
                   exit={{ scale: 1.2, opacity: 0, filter: "blur(20px)" }}
@@ -47,23 +50,55 @@ export default function ScenePrice() {
                 </motion.span>
              ) : (
                 <>
-                  <motion.span className="text-3xl md:text-5xl font-mono font-black line-through opacity-20 absolute top-4 md:top-6"
-                     initial={{ opacity: 0 }} animate={{ opacity: 0.2 }}
+                  <motion.span className="text-4xl md:text-6xl xl:text-8xl font-mono font-black line-through opacity-80 absolute top-4 md:top-6"
+                     initial={{ opacity: 0 }} animate={{ opacity: 0.4 }}
                   >
                     40 ¥
                   </motion.span>
                   <motion.div 
                     key="price-39"
-                    className="text-[50px] md:text-[80px] font-black font-mono text-[#ffd700] tracking-tighter flex items-center justify-center mt-6 md:mt-8 relative leading-none whitespace-nowrap"
+                    className="text-[60px] md:text-[100px] xl:text-[140px] font-black font-mono text-[#ffd700] tracking-tighter flex items-center justify-center mt-6 md:mt-8 relative leading-none whitespace-nowrap"
+                    style={{ textShadow: '0 2px 20px rgba(0,0,0,0.9)' }}
                     initial={{ scale: 0.5, filter: "blur(20px)", opacity: 0 }}
                     animate={{ scale: 1, filter: "blur(0px)", opacity: 1 }}
                     transition={{ type: "spring", bounce: 0.6 }}
                   >
-                    <Sparkles className="absolute -top-6 -left-8 w-8 h-8 text-[#ffd700] animate-pulse" />
-                    39<span className="text-white/50 text-[40px] md:text-[60px] mx-2 md:mx-4">+</span>1 ¥
-                    <Sparkles className="absolute -bottom-4 -right-10 w-6 h-6 text-[#ffd700] animate-pulse delay-150" />
+                    <Sparkles className="absolute -top-6 -left-8 w-8 h-8 md:w-12 md:h-12 text-[#ffd700] animate-pulse" />
+                    39<span className="text-white text-[50px] md:text-[80px] xl:text-[100px] mx-2 md:mx-4">+</span>1 ¥
+                    <Sparkles className="absolute -bottom-4 -right-10 w-8 h-8 md:w-10 md:h-10 text-[#ffd700] animate-pulse delay-150" />
                   </motion.div>
                 </>
+             )}
+             
+             {phase === 2.5 && (
+               <motion.div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
+                 {/* Explosion de particules depuis le centre */}
+                 {[...Array(16)].map((_, i) => (
+                   <motion.div
+                     key={i}
+                     className="absolute w-3 h-3 rounded-full"
+                     style={{ 
+                       backgroundColor: i % 2 === 0 ? '#ffd700' : '#d60000',
+                       boxShadow: `0 0 10px ${i % 2 === 0 ? '#ffd700' : '#d60000'}`
+                     }}
+                     initial={{ x: 0, y: 0, scale: 1, opacity: 1 }}
+                     animate={{ 
+                       x: Math.cos((i / 16) * Math.PI * 2) * 200,
+                       y: Math.sin((i / 16) * Math.PI * 2) * 200,
+                       scale: 0,
+                       opacity: 0
+                     }}
+                     transition={{ duration: 0.6, ease: "easeOut" }}
+                   />
+                 ))}
+                 {/* Flash blanc */}
+                 <motion.div 
+                   className="absolute inset-0 bg-white rounded-3xl"
+                   initial={{ opacity: 0.8 }}
+                   animate={{ opacity: 0 }}
+                   transition={{ duration: 0.3 }}
+                 />
+               </motion.div>
              )}
           </div>
         </div>
@@ -105,12 +140,13 @@ export default function ScenePrice() {
                 </motion.div>
                 
                 <motion.div
-                  className="bg-black/60 backdrop-blur-md p-4 md:p-6 rounded-2xl border border-white/10 w-full max-w-sm shadow-2xl mx-auto"
+                  className="bg-black/80 backdrop-blur-md p-6 md:p-10 rounded-2xl border border-white/30 w-full max-w-lg shadow-2xl mx-auto"
+                  style={{ textShadow: '0 2px 20px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,1)' }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: phase >= 3 ? 1 : 0, y: phase >= 3 ? 0 : 20 }}
                 >
-                  <p className="text-center text-lg md:text-xl font-bold font-serif italic text-white/90">
-                    "Mejor esquivar el <span className="text-[#d60000] not-italic font-black text-2xl md:text-3xl">4</span> que asustar al comprador."
+                  <p className="text-center text-xl md:text-3xl xl:text-4xl font-bold font-serif italic text-white">
+                    "Mejor esquivar el <span className="text-[#d60000] not-italic font-black text-3xl md:text-5xl xl:text-7xl">4</span> que asustar al comprador."
                   </p>
                 </motion.div>
               </motion.div>

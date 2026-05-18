@@ -11,43 +11,52 @@ export default function SceneEnd() {
       exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
       transition={{ duration: 0.8 }}
     >
-      <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8 max-w-6xl">
+      <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8 max-w-6xl relative z-10 perspective-1000">
         {words.map((word, index) => {
           // Generate pseudo-random angles and positions for the throwing effect
-          const angle = index % 2 === 0 ? -20 : 20;
-          const xOffset = index % 2 === 0 ? -100 : 100;
-          const yOffset = index % 3 === 0 ? -100 : 100;
+          const finalAngle = index % 2 === 0 ? -4 : 5;
+          const xOffset = index % 2 === 0 ? -150 : 150;
+          const yOffset = index % 3 === 0 ? -200 : 150;
           
           return (
-            <motion.span
+            <motion.div
               key={index}
-              className={`text-4xl md:text-6xl lg:text-[80px] font-black uppercase drop-shadow-[0_0_30px_rgba(214,0,0,0.5)] ${index === 3 ? 'text-[#ffd700]' : 'text-white'}`}
+              className={`flex items-center justify-center px-6 py-4 md:px-10 md:py-6 rounded-2xl border-4 md:border-8 border-black shadow-[10px_10px_0px_rgba(0,0,0,1)] ${index === 3 ? 'bg-[#ffd700] text-black border-black' : 'bg-[#d60000] text-white'}`}
               initial={{ 
                 opacity: 0, 
-                scale: 8, 
-                rotate: angle,
+                scale: 6, 
+                rotate: finalAngle * 10,
                 x: xOffset,
                 y: yOffset,
-                filter: "blur(20px)"
+                z: 500,
+                filter: "blur(20px)",
+                boxShadow: "50px 50px 100px rgba(0,0,0,0.5)"
               }}
               animate={{ 
                 opacity: 1, 
                 scale: 1,
-                rotate: 0,
+                rotate: finalAngle,
                 x: 0,
                 y: 0,
-                filter: "blur(0px)"
+                z: 0,
+                filter: "blur(0px)",
+                boxShadow: "15px 15px 0px rgba(0,0,0,0.8)"
               }}
               transition={{ 
                 type: "spring",
-                stiffness: 400,
-                damping: 20,
-                mass: 1.5,
+                stiffness: 300,
+                damping: 15,
+                mass: 2,
                 delay: 0.5 + index * 0.4,
               }}
             >
-              {word}
-            </motion.span>
+              <h1 
+                className="text-5xl md:text-7xl lg:text-9xl xl:text-[140px] font-black uppercase leading-none tracking-tight"
+                style={{ textShadow: index === 3 ? 'none' : '0 4px 0px #800000' }}
+              >
+                {word}
+              </h1>
+            </motion.div>
           );
         })}
       </div>

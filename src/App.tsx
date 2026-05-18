@@ -32,7 +32,7 @@ export default function App() {
   }, [currentScene]);
 
   return (
-    <div className="w-full h-screen bg-[#0b0b0b] text-white font-sans overflow-hidden flex flex-col selection:bg-[#d60000] selection:text-white">
+    <div className="w-full h-screen bg-black text-white font-sans overflow-hidden flex flex-col selection:bg-[#d60000] selection:text-white">
       {/* Main Presentation Canvas */}
       <main className="flex-1 relative flex items-center justify-center p-4 pb-16 md:p-8 md:pb-20 overflow-hidden h-full">
         {/* Background radial gradient for depth */}
@@ -78,6 +78,14 @@ export default function App() {
             <span className="text-lg md:text-xl font-bold">→</span>
           </button>
         </div>
+
+        <button
+          onClick={() => document.documentElement.requestFullscreen()}
+          className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-all text-white/40 hover:text-white absolute left-4 bottom-0 md:bottom-4 text-xs border border-white/10 pointer-events-auto"
+          title="Plein écran (F11)"
+        >
+          ⛶
+        </button>
       </footer>
     </div>
   );
