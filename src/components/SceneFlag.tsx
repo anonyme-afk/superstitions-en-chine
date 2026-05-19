@@ -57,13 +57,12 @@ export default function SceneFlag() {
       
       {/* Auréole explicite (anneau) */}
       <motion.div
-        className="absolute z-20 rounded-[100%]"
+        className="absolute z-20 rounded-[100%] w-[80vw] md:w-[60vw] lg:w-[40vw] max-w-[700px] h-[30vw] md:h-[20vw] lg:h-[12vw] max-h-[200px]"
         style={{ 
-          width: '50vw', height: '15vw', maxWidth: '700px', maxHeight: '200px', 
-          boxShadow: '0 0 40px #ffd700, inset 0 0 40px #ffd700, 0 0 80px #ffffff',
-          top: '20%',
-          borderTop: '6px solid rgba(255, 215, 0, 0.8)',
-          borderBottom: '10px solid rgba(255, 255, 255, 0.9)',
+          boxShadow: '0 0 20px #ffd700, inset 0 0 20px #ffd700, 0 0 50px #ffffff',
+          top: '15vh',
+          borderTop: '4px solid rgba(255, 215, 0, 0.8)',
+          borderBottom: '8px solid rgba(255, 255, 255, 0.9)',
           transformOrigin: 'center'
         }}
         initial={{ opacity: 0, y: -1000, scale: 0.2, rotateX: 80 }}

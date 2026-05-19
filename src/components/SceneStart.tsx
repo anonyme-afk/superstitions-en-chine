@@ -16,7 +16,7 @@ export default function SceneStart({ onStart }: { onStart: () => void }) {
            transition={{ duration: 1.5, delay: 0.3, ease: "easeInOut" }}
          />
 
-         <h1 className="text-6xl xl:text-8xl 2xl:text-[120px] font-bold mb-6 tracking-tight leading-none flex flex-col items-center">
+         <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-8xl 2xl:text-[120px] font-bold mb-6 tracking-tight leading-none flex flex-col items-center">
            <span className="text-white flex flex-wrap justify-center font-black uppercase" 
              style={{ perspective: 1000, textShadow: '0 2px 20px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,1)' }}
            >

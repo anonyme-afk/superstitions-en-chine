@@ -1,18 +1,20 @@
-# Superstitions en Chine
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-Une application interactive explorant les superstitions et croyances populaires chinoises.
+# Run and deploy your AI Studio app
 
-## 🚀 Lien
+This contains everything you need to run your app locally.
 
-**Site en ligne :** [https://superstitions-en-chine.vercel.app](https://superstitions-en-chine.vercel.app)
+View your app in AI Studio: https://ai.studio/apps/043a9db9-59d5-486e-af3f-c3aa6040c176
 
-## 📖 À propos
+## Run Locally
 
-Ce projet est une application web construite avec React et Vite qui présente différentes superstitions chinoises sous forme de scènes interactives.
+**Prerequisites:**  Node.js
 
-## 🛠️ Technologies
 
-- React
-- TypeScript
-- Vite
-- Déployé sur Vercel
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`

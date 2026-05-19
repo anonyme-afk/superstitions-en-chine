@@ -47,7 +47,7 @@ const ScaredPerson = ({ flipped = false }: { flipped?: boolean }) => (
 );
 
 const ShanghaiSkyline = () => (
-  <svg viewBox="0 0 1200 320" className="w-full absolute bottom-0 z-0" preserveAspectRatio="none">
+  <svg viewBox="0 0 1200 320" className="w-full h-[25vh] md:h-[35vh] lg:h-[40vh] absolute bottom-0 z-0 opacity-80" preserveAspectRatio="none">
     <rect x="547" y="30" width="14" height="290" fill="#1a1a1a" />
     <circle cx="554" cy="130" r="38" fill="#1c1c1c" stroke="#2a2a2a" strokeWidth="2" />
     <circle cx="554" cy="210" r="24" fill="#1c1c1c" />
@@ -122,6 +122,7 @@ export default function SceneFear() {
       <motion.svg
         className="absolute inset-0 w-full h-full pointer-events-none z-10"
         viewBox="0 0 1200 800"
+        preserveAspectRatio="xMidYMid slice"
         initial={{ opacity: 0 }}
         animate={{ opacity: shake ? 0.75 : 0 }}
         transition={{ duration: 0.25 }}
