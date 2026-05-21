@@ -1,4 +1,57 @@
 import { motion } from 'motion/react';
+import { useEffect, useState } from 'react';
+
+const Confetti = () => {
+  const [particles, setParticles] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Generate 60 pieces of confetti
+    const newParticles = Array.from({ length: 80 }).map((_, i) => ({
+      id: i,
+      x: Math.random() * 100, // vw
+      y: -20 - Math.random() * 30, // vh (start above)
+      color: Math.random() > 0.5 ? '#d60000' : '#ffd700',
+      size: Math.random() * 8 + 6,
+      rotate: Math.random() * 360,
+      duration: Math.random() * 3 + 3,
+      delay: Math.random() * 3, // fall within 0-3s window
+    }));
+    setParticles(newParticles);
+  }, []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-30">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute"
+          style={{
+            left: `${p.x}vw`,
+            top: `${p.y}vh`,
+            width: `${p.size}px`,
+            height: `${p.size * 0.6}px`,
+            backgroundColor: p.color,
+            boxShadow: `0 2px 4px rgba(0,0,0,0.2)`
+          }}
+          animate={{
+            y: ['0vh', '120vh'], // Fall straight down 120vh from top
+            rotate: [p.rotate, p.rotate + 360 + Math.random() * 720],
+            x: [`${p.x}vw`, `${p.x + (Math.random() * 20 - 10)}vw`],
+            opacity: [1, 1, 1, 0] // Fade out at the end
+          }}
+          transition={{
+            duration: p.duration,
+            delay: 1.5 + p.delay, // Wait a bit before rain starts
+            ease: [0.25, 1, 0.5, 1], // Wait, falling is usually 'easeIn' or 'linear'.
+            // Actually, we want them to fall like gravity, maybe linear is fine since there's air resistance.
+            // Oh, the user says "rain of confetti... for 3 seconds, then slow down/fade out".
+            times: [0, 1], // Just let them fall through the screen
+          }}
+        />
+      ))}
+    </div>
+  );
+};
 
 export default function SceneEnd() {
   const words = ["¡Gracias", "por", "escucharme", "!"];
@@ -11,6 +64,8 @@ export default function SceneEnd() {
       exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
       transition={{ duration: 0.8 }}
     >
+      <Confetti />
+
       <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8 max-w-6xl relative z-10 perspective-1000">
         {words.map((word, index) => {
           // Generate pseudo-random angles and positions for the throwing effect
@@ -85,7 +140,7 @@ export default function SceneEnd() {
         className="absolute bottom-0 left-0 right-0 h-8 bg-[#d60000] overflow-hidden flex items-center z-40 border-t border-white/20 shadow-[0_-5px_15px_rgba(214,0,0,0.5)]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2.5, duration: 1 }}
+        transition={{ delay: 3.5, duration: 1 }}
       >
          <motion.div 
            className="whitespace-nowrap flex"

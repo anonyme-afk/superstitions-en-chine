@@ -26,14 +26,28 @@
 }
 
 body {
-  background-color: #000000;
   color: #ffffff;
-  overflow: hidden; /* Prevent scrolling, it's a fixed presentation */
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
+/* Utilise dvh pour les navigateurs modernes — évite les coupures en fullscreen */
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* Fond noir pur pour meilleur contraste projecteur */
+body {
+  background-color: #000000;
+  touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Police de base plus grande pour projecteur */
 @media (min-width: 1280px) {
-  html {
-    font-size: 18px;
-  }
+  html { font-size: 18px; }
 }

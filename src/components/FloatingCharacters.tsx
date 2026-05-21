@@ -7,8 +7,10 @@ const COLORS = ['text-[#d60000]', 'text-[#ffd700]', 'text-zinc-500'];
 interface FloatingChar {
   id: number;
   char: string;
-  x: number;
-  y: number;
+  x: number; // target x
+  y: number; // target y
+  startX: number;
+  startY: number;
   color: string;
 }
 
@@ -18,22 +20,44 @@ export default function FloatingCharacters({ className = "" }: { className?: str
   useEffect(() => {
     let idCounter = 0;
     
-    const createChar = () => ({
+    const createChar = (isInitial = false) => {
+      // Pour l'effet de convergence, au début ils partent tous des bords ou coins
+      // Ensuite les nouveaux apparaissent aléatoirement
+      const targetX = Math.random() * 90 + 5;
+      const targetY = Math.random() * 90 + 5;
+      
+      let startX = targetX;
+      let startY = targetY;
+      
+      if (isInitial) {
+        // Départ concentré au centre (convergence puis dispersion)
+        // ou départ des extérieurs vers le centre! 
+        // L'utilisateur demande: "converger vers le titre puis s'éloigner au lieu de juste flotter."
+        // Le centre est à 50, 50
+        startX = 50;
+        startY = 50;
+      }
+      
+      return {
         id: idCounter++,
         char: CHINESE_CHARS[Math.floor(Math.random() * CHINESE_CHARS.length)],
-        x: Math.random() * 90 + 5, // keep away from absolute edges
-        y: Math.random() * 90 + 5,
+        x: targetX,
+        y: targetY,
+        startX: isInitial ? 50 : targetX,
+        startY: isInitial ? 50 : targetY,
         color: COLORS[Math.floor(Math.random() * COLORS.length)]
-    });
+      }
+    };
 
     // Initial pre-fill so it doesn't look empty when first loaded
-    const initialChars = Array.from({ length: 8 }).map(createChar);
+    // Nous créons un lot qui va converger depuis le centre (animé dans le JSX)
+    const initialChars = Array.from({ length: 15 }).map(() => createChar(true));
     setChars(initialChars);
     
     initialChars.forEach(c => {
          setTimeout(() => {
             setChars((prev) => prev.filter((item) => item.id !== c.id));
-         }, Math.random() * 3000 + 2000);
+         }, Math.random() * 4000 + 4000);
     });
 
     const interval = setInterval(() => {
@@ -59,11 +83,24 @@ export default function FloatingCharacters({ className = "" }: { className?: str
           <motion.div
             key={c.id}
             className={`absolute font-serif text-5xl md:text-7xl lg:text-[100px] font-black ${c.color}`}
-            style={{ left: `${c.x}%`, top: `${c.y}%` }}
-            initial={{ opacity: 0, scale: 0.2, filter: "blur(10px)", rotate: (Math.random() - 0.5) * 60 }}
-            animate={{ opacity: Math.random() * 0.4 + 0.1, scale: 1, filter: "blur(0px)", rotate: 0 }}
+            initial={{ 
+              opacity: 0, 
+              scale: 0.1, 
+              filter: "blur(20px)",
+              left: `${c.startX}%`,
+              top: `${c.startY}%`,
+              rotate: (Math.random() - 0.5) * 120 
+            }}
+            animate={{ 
+              opacity: Math.random() * 0.3 + 0.05, 
+              scale: 1, 
+              filter: "blur(2px)", 
+              rotate: 0,
+              left: `${c.x}%`, 
+              top: `${c.y}%`
+            }}
             exit={{ opacity: 0, scale: 1.5, filter: "blur(15px)", rotate: (Math.random() - 0.5) * 60 }}
-            transition={{ duration: 2 + Math.random() }}
+            transition={{ duration: 3 + Math.random() * 2, ease: "easeOut" }}
           >
             {c.char}
           </motion.div>

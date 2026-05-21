@@ -117,6 +117,14 @@ export default function SceneFear() {
         animate={{ opacity: shake ? [0, 0.9, 0] : 0 }}
         transition={{ duration: 0.5 }}
       />
+      
+      {/* Flash blanc d'impact psychologique au moment d'arrivée du 4 */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none bg-white z-[100]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 1, 0] }}
+        transition={{ delay: 2.5, duration: 0.15 }}
+      />
 
       {/* Fissures au sol */}
       <motion.svg
@@ -153,8 +161,8 @@ export default function SceneFear() {
       {/* Chiffre 4 */}
       <div className="relative z-20 flex flex-col items-center justify-center h-full mb-[8vh] mt-[5vh]">
         <motion.h2
-          className="text-[160px] md:text-[280px] lg:text-[400px] font-black text-[#d60000] leading-none"
-          style={{ textShadow: '0 0 80px rgba(214,0,0,0.9), 0 0 200px rgba(214,0,0,0.5)' }}
+          className="font-black text-[#d60000] leading-none"
+          style={{ fontSize: 'clamp(8rem, 30vw, 400px)', textShadow: '0 0 80px rgba(214,0,0,0.9), 0 0 200px rgba(214,0,0,0.5)' }}
           initial={{ scale: 0, opacity: 0, rotate: -180, filter: 'blur(40px)' }}
           animate={{ scale: [0, 1.4, 0.9, 1.1, 1], opacity: 1, rotate: 0, filter: 'blur(0px)' }}
           transition={{ delay: 2.5, duration: 1.3, times: [0, 0.4, 0.6, 0.8, 1], ease: 'easeOut' }}
@@ -220,7 +228,15 @@ export default function SceneFear() {
         );
       })}
 
-      <ShanghaiSkyline />
+      {/* Skyline qui tremble */}
+      <motion.div
+        className="absolute bottom-0 w-full z-0 h-full pointer-events-none"
+        initial={{ x: 0 }}
+        animate={{ x: shake ? [-6, 6, -8, 4, -2, 2, 0] : 0 }}
+        transition={{ duration: 0.1, repeat: shake ? 6 : 0 }}
+      >
+        <ShanghaiSkyline />
+      </motion.div>
     </motion.div>
   );
 }
